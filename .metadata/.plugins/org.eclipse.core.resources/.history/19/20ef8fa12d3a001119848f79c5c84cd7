@@ -1,0 +1,14 @@
+package mapTesting;
+
+import org.testng.annotations.Test;
+
+import io.restassured.RestAssured;
+
+public class MapAPI {
+
+	@Test
+	public void addPlace()
+	{
+		RestAssured.baseURI= "https://rahulshettyacademy.com";
+	}
+}

@@ -1,0 +1,30 @@
+package mapTesting;
+
+import org.testng.annotations.Test;
+
+import Request_Payloads.MapPayload;
+import io.restassured.RestAssured;
+import io.restassured.path.json.JsonPath;
+
+import static io.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.*;
+
+public class MapAPI {
+
+	@Test
+	public void addPlace()
+	{
+		RestAssured.baseURI= "https://rahulshettyacademy.com";
+		String response = given()
+			.queryParam("key","qaclick123")
+			.body(MapPayload.getMapPayload())
+		.when()
+			.post("/maps/api/place/add/json")
+		.then()
+			.statusCode(200).body("status", equalTo("OK"))
+			.extract().response().asString();
+		JsonPath path = new JsonPath(response);
+		String placeId = path.getString("place_id").toString();
+		System.out.println(placeId);
+	}
+}

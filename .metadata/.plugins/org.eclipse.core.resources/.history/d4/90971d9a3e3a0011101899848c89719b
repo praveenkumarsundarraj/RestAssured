@@ -1,0 +1,13 @@
+package reusableMethods;
+
+import io.restassured.path.json.JsonPath;
+
+public class ParseJson {
+
+	public String getvalue(String response, String searchString)
+	{
+		JsonPath js = new JsonPath(response);
+		
+		return js.getString(searchString);
+	}
+}

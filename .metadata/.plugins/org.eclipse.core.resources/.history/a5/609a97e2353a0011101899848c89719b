@@ -1,0 +1,60 @@
+package mapTesting;
+
+import org.testng.annotations.Test;
+
+import Request_Payloads.MapPayload;
+import io.restassured.RestAssured;
+import io.restassured.path.json.JsonPath;
+
+import static io.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.*;
+
+import javax.management.Query;
+
+public class MapAPI {
+
+	static String placeId;
+	@Test
+	public void addPlace()
+	{
+		RestAssured.baseURI= "https://rahulshettyacademy.com";
+		String response = given()
+			.queryParam("key","qaclick123")
+			.body(MapPayload.getMapPayload())
+		.when()
+			.post("/maps/api/place/add/json")
+		.then()
+			.statusCode(200).body("status", equalTo("OK"))
+			.extract().response().asString();
+		JsonPath path = new JsonPath(response);
+		placeId = path.getString("place_id");
+	}
+	
+	@Test
+	public void updatePlace()
+	{
+		given()
+			.queryParam("key", "qaclick123")
+			.queryParam("place_id", placeId)
+			.headers("Content-Type","application/json")
+			.body(MapPayload.updateMapPayload(placeId))
+		.when()
+			.put("/maps/api/place/update/json")
+		.then()
+			.statusCode(200);
+	}
+	
+	@Test
+	public void getPlace()
+	{
+		String place = given()
+			.queryParam("key", "qaclick123")
+			.queryParam("place_id", placeId)
+		.when()
+			.get("/maps/api/place/get/json")
+		.then()
+			.statusCode(200)
+			.extract().asString();
+		System.out.println("Place : "+place);
+	}
+}

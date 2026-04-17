@@ -1,0 +1,5 @@
+package Request_Payloads;
+
+public class MapPayload {
+
+}

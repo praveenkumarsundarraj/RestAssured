@@ -1,0 +1,9 @@
+package Request_Payloads;
+
+public class MapPayload {
+
+	public static String getMapPayload()
+	{
+		
+	}
+}

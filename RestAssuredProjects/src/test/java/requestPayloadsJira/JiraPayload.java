@@ -20,4 +20,9 @@ public class JiraPayload {
 				+ "}\r\n"
 				+ "";
 	}
+	
+	public static String authKeyBasic()
+	{
+		return "Basic cHJhdmVlbmt1bWFyc3VuZGFycmFqQGdtYWlsLmNvbTpBVEFUVDN4RmZHRjAzcElSMWhXZmdLZ19FSUtEZzVLRDZYazNta0s1Y3NmMV91QVkzRThTMVJ4d3R1T2I3VXQyRklIQndMMmhjd1V3WV8wSmxfbm9QcDBoZ1BQdDBBakV1NnR5Uy1HaEZlcEd2bFVtTUFSZGZ3V1JRekt1a2owaFZ4WVBlN1dJcVVCYklEQlhfYlNqRWszVjNVMDV1Qzh5UElfT3dWNlZmaVVndGU4aGJiSm1pNEU9NjczM0U5Mzc=";
+	}
 }

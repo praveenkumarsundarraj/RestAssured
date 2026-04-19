@@ -1,21 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results ignored="0" total="2" passed="2" failed="0" skipped="0">
+<testng-results ignored="0" total="1" passed="1" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2026-04-19T23:09:21 SGT" name="Default suite" finished-at="2026-04-19T23:09:29 SGT" duration-ms="7502">
+  <suite started-at="2026-04-20T02:31:52 SGT" name="Default suite" finished-at="2026-04-20T02:31:57 SGT" duration-ms="5735">
     <groups>
     </groups>
-    <test started-at="2026-04-19T23:09:21 SGT" name="Default test" finished-at="2026-04-19T23:09:29 SGT" duration-ms="7502">
-      <class name="jiraAPITest.JiraAPITest">
-        <test-method signature="createBug()[pri:1, instance:jiraAPITest.JiraAPITest@10e31a9a]" started-at="2026-04-19T23:09:21 SGT" name="createBug" finished-at="2026-04-19T23:09:26 SGT" duration-ms="5218" status="PASS">
+    <test started-at="2026-04-20T02:31:52 SGT" name="Default test" finished-at="2026-04-20T02:31:57 SGT" duration-ms="5735">
+      <class name="mapTesting.SerializeExample">
+        <test-method signature="addPlace()[pri:1, instance:mapTesting.SerializeExample@c8c12ac]" started-at="2026-04-20T02:31:52 SGT" name="addPlace" finished-at="2026-04-20T02:31:57 SGT" duration-ms="5656" status="PASS">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- createBug -->
-        <test-method signature="addAttachment()[pri:2, instance:jiraAPITest.JiraAPITest@10e31a9a]" started-at="2026-04-19T23:09:26 SGT" name="addAttachment" finished-at="2026-04-19T23:09:29 SGT" duration-ms="2191" status="PASS">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- addAttachment -->
-      </class> <!-- jiraAPITest.JiraAPITest -->
+        </test-method> <!-- addPlace -->
+      </class> <!-- mapTesting.SerializeExample -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
 </testng-results>

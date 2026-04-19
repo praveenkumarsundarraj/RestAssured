@@ -9,24 +9,49 @@ import static org.hamcrest.Matchers.*;
 import org.testng.annotations.Test;
 import org.testng.annotations.DataProvider;
 
+import Request_Payload_Library.AddBookPayload;
 import Request_Payload_Library.LibraryPayloads;
 
 public class LibraryTesting {
-
+	
 	@Test(dataProvider = "bookData")
 	public void addBook(String isbn, String aisleNumber)
 	{
+		AddBookPayload abp = new AddBookPayload();
+		abp.setName("Learn Appium Automation with Java");
+		abp.setIsbn(isbn);
+		abp.setAisle(aisleNumber);
+		abp.setAuthor("John foe");
+		
+		
 		RestAssured.baseURI = "http://216.10.245.166";
 		String response = given()
-			.body(LibraryPayloads.addBookPayload(isbn,aisleNumber))
+			.header("Content-Type", "application/json")
+			.body(abp)
 		.when()
 			.post("Library/Addbook.php")
 		.then()
 			.assertThat().statusCode(200)
 			.body("Msg", equalTo("successfully added"))
+			.log().all()
 			.extract().response().asString();
 		String bookID = ParseJson.getJsonValue(response, "ID");
 	}
+
+//	@Test(dataProvider = "bookData")
+//	public void addBook(String isbn, String aisleNumber)
+//	{
+//		RestAssured.baseURI = "http://216.10.245.166";
+//		String response = given()
+//			.body(LibraryPayloads.addBookPayload(isbn,aisleNumber))
+//		.when()
+//			.post("Library/Addbook.php")
+//		.then()
+//			.assertThat().statusCode(200)
+//			.body("Msg", equalTo("successfully added"))
+//			.extract().response().asString();
+//		String bookID = ParseJson.getJsonValue(response, "ID");
+//	}
 	
 	@Test(dataProvider = "bookData")
 	public void deleteBook(String isbn, String aisleNumber)

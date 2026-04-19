@@ -3,11 +3,11 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="jiraAPITest.JiraAPITest">
+      <class name="Library_API.LibraryTesting">
         <methods>
-          <include name="addAttachment"/>
+          <include name="addBook" invocation-numbers="0 1 2 3"/>
         </methods>
-      </class> <!-- jiraAPITest.JiraAPITest -->
+      </class> <!-- Library_API.LibraryTesting -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

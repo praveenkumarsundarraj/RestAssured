@@ -13,13 +13,14 @@ import reusableMethods.ParseJson;
 public class JiraAPITest {
 
 	static String bugKey;
+	static String bugId;
 	@Test(priority =1)
 	public void createBug()
 	{
 		RestAssured.baseURI = "https://praveenkumarsundarraj.atlassian.net";
 		String response = given()
 			.accept("application/json")
-			.header("Authorization","Basic cHJhdmVlbmt1bWFyc3VuZGFycmFqQGdtYWlsLmNvbTpBVEFUVDN4RmZHRjAzcElSMWhXZmdLZ19FSUtEZzVLRDZYazNta0s1Y3NmMV91QVkzRThTMVJ4d3R1T2I3VXQyRklIQndMMmhjd1V3WV8wSmxfbm9QcDBoZ1BQdDBBakV1NnR5Uy1HaEZlcEd2bFVtTUFSZGZ3V1JRekt1a2owaFZ4WVBlN1dJcVVCYklEQlhfYlNqRWszVjNVMDV1Qzh5UElfT3dWNlZmaVVndGU4aGJiSm1pNEU9NjczM0U5Mzc=")
+			.header("Authorization",JiraPayload.authKeyBasic())
 			.contentType("application/json")
 			.body(JiraPayload.createBugPayload())
 		.when()
@@ -28,6 +29,7 @@ public class JiraAPITest {
 			.assertThat().statusCode(201)
 			.extract().response().asString();
 		JiraAPITest.bugKey = ParseJson.getJsonValue(response, "key");
+		JiraAPITest.bugId = ParseJson.getJsonValue(response, "id");
 	}
 	
 	@Test(priority = 2)
@@ -37,13 +39,28 @@ public class JiraAPITest {
 		String response = given()
 				.pathParam("bugKey", bugKey)
 				.header("X-Atlassian-Token","no-check")
-				.header("Authorization","Basic cHJhdmVlbmt1bWFyc3VuZGFycmFqQGdtYWlsLmNvbTpBVEFUVDN4RmZHRjAzcElSMWhXZmdLZ19FSUtEZzVLRDZYazNta0s1Y3NmMV91QVkzRThTMVJ4d3R1T2I3VXQyRklIQndMMmhjd1V3WV8wSmxfbm9QcDBoZ1BQdDBBakV1NnR5Uy1HaEZlcEd2bFVtTUFSZGZ3V1JRekt1a2owaFZ4WVBlN1dJcVVCYklEQlhfYlNqRWszVjNVMDV1Qzh5UElfT3dWNlZmaVVndGU4aGJiSm1pNEU9NjczM0U5Mzc=")
+				.header("Authorization",JiraPayload.authKeyBasic())
 				.multiPart("file", new File("C:/Users/91900/Pictures/download.jpg"))
 			.when()
 				.post("/rest/api/3/issue/{bugKey}/attachments")
 			.then()
 				.assertThat().statusCode(200)
-				.log().all()
 				.extract().response().asString();
+	}
+	
+	@Test(priority = 3)
+	public void getIssue()
+	{
+		System.out.println("Bug Id: "+bugId);
+		RestAssured.baseURI = "https://praveenkumarsundarraj.atlassian.net";
+		given()
+			.pathParam("bugId", bugId)
+			.accept("application/json")
+			.header("Authorization",JiraPayload.authKeyBasic())
+			.when()
+			.get("/rest/api/3/issue/{bugId}")
+		.then()
+			.assertThat().statusCode(200)
+			.body("fields.attachment[0].filename", equalTo("download.jpg"));
 	}
 }

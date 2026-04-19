@@ -3,11 +3,11 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="mapTesting.MapAPI">
+      <class name="jiraAPITest.JiraAPITest">
         <methods>
-          <include name="getPlace"/>
+          <include name="addAttachment"/>
         </methods>
-      </class> <!-- mapTesting.MapAPI -->
+      </class> <!-- jiraAPITest.JiraAPITest -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

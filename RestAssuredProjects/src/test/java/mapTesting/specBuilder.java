@@ -5,7 +5,9 @@ import org.testng.annotations.Test;
 
 import Request_Payloads_Maps.MapPayload;
 import io.restassured.RestAssured;
+import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.path.json.JsonPath;
+import io.restassured.specification.RequestSpecification;
 import reusableMethods.ParseJson;
 
 import static io.restassured.RestAssured.*;
@@ -17,18 +19,27 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 
-public class MapAPI {
+public class specBuilder {
 
 	static String placeId;
 	static String newAddress;
+	static RequestSpecification res;
+	
+	
 	@Test(priority = 1)
 	public void addPlace() throws IOException
 	{
-		RestAssured.baseURI= "https://rahulshettyacademy.com";
+		//common spec builder to reuse the redundant parameters
+		res = new RequestSpecBuilder()
+					.setBaseUri("https://rahulshettyacademy.com")
+					.addQueryParam("key", "qaclick123")
+					.setContentType("application/json")
+					.build();
+		
+		
 		String dir = System.getProperty("user.dir");
 		Path jsonPath = Paths.get(dir,"/src/test/java/Request_Payloads_Maps/addPlace.json");
-		String response = given()
-			.queryParam("key","qaclick123")
+		String response = given().spec(res)
 			.body(new String(Files.readAllBytes(jsonPath)))
 			.log().all()
 		.when()
@@ -36,18 +47,19 @@ public class MapAPI {
 		.then()
 			.statusCode(200).body("status", equalTo("OK"))
 			.extract().response().asString();
-		MapAPI.placeId = ParseJson.getJsonValue(response,"place_id");
-		System.out.println(MapAPI.placeId);
+		specBuilder.placeId = ParseJson.getJsonValue(response,"place_id");
+		System.out.println(specBuilder.placeId);
 	}
 	
 	@Test(priority = 2)
 	public void updatePlace()
 	{
-		MapAPI.newAddress = "192b, mahalakshmi nager, India";
+		specBuilder.newAddress = "192b, mahalakshmi nager, India";
+		
 		given()
-			.queryParam("key", "qaclick123")
+			.spec(res)
 			.header("Content-Type","application/json")
-			.body(MapPayload.updateMapPayload(MapAPI.placeId,MapAPI.newAddress))
+			.body(MapPayload.updateMapPayload(specBuilder.placeId,specBuilder.newAddress))
 		.when()
 			.put("maps/api/place/update/json")
 		.then()
@@ -59,17 +71,17 @@ public class MapAPI {
 	public void getPlace()
 	{
 		String response = given()
-			.queryParam("key", "qaclick123")
-			.queryParam("place_id", MapAPI.placeId)
+			.spec(res)
+			.queryParam("place_id", specBuilder.placeId)
 		.when()
 			.get("maps/api/place/get/json")
 		.then()
 			.statusCode(200)
 			.extract().response().asString();
-		Assert.assertEquals(MapAPI.newAddress, ParseJson.getJsonValue(response, "address"));
+		Assert.assertEquals(specBuilder.newAddress, ParseJson.getJsonValue(response, "address"));
 	}
 	
-	@Test(priority = 4)
+	@Test
 	public void complexJsonParse()
 	{
 		JsonPath validate = new JsonPath(MapPayload.getComplexJson());
